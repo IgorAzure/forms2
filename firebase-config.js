@@ -3,13 +3,14 @@ import { getDatabase } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
-  projectId: "SEU_PROJETO",
-  storageBucket: "SEU_PROJETO.firebasestorage.app",
-  messagingSenderId: "SEU_SENDER_ID",
-  appId: "SEU_APP_ID"
+  apiKey: "AIzaSyDNEdE5JgXp6zLOqsW__e232yPCeyir7_A",
+  authDomain: "forms-27cd7.firebaseapp.com",
+  databaseURL: "https://forms-27cd7-default-rtdb.firebaseio.com/",
+  projectId: "forms-27cd7",
+  storageBucket: "forms-27cd7.firebasestorage.app",
+  messagingSenderId: "S814907710390",
+  appId: "1:814907710390:web:998a69a7cee3409a0e3f17",
+  measurementId: "G-ZZ23ESRVVG"
 };
 
 const app = initializeApp(firebaseConfig);
