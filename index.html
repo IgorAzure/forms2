@@ -12,21 +12,33 @@
 <body class="bg-zinc-100 text-zinc-900 font-sans antialiased">
 
   <header class="bg-zinc-900 text-white py-5 px-4 shadow-md">
-    <div class="max-w-lg mx-auto">
-      <h1 class="text-xl font-bold tracking-tight">Moletom DNY • Terceirão</h1>
-      <p class="text-zinc-400 text-sm mt-0.5">Monte sua peça e veja o valor final na hora</p>
+    <div class="max-w-lg mx-auto flex items-center justify-between">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight">Moletom DNY • Terceirão</h1>
+        <p class="text-zinc-400 text-sm mt-0.5">Monte sua peça e veja o valor final na hora</p>
+      </div>
+      <a href="admin.html" class="text-xs text-zinc-400 hover:text-white border border-zinc-700 px-2.5 py-1.5 rounded-lg transition">
+        Painel
+      </a>
     </div>
   </header>
 
   <main class="max-w-lg mx-auto p-4 space-y-5">
 
-    <!-- 1. Identificação -->
+    <!-- 1. Nome e Número (lado a lado) -->
     <section class="bg-white p-4 rounded-xl shadow-sm border border-zinc-200 space-y-3">
-      <h2 class="font-semibold text-base text-zinc-800">1. Seus Dados</h2>
-      <div>
-        <label class="block text-xs font-medium text-zinc-600 mb-1">Seu Nome Completo *</label>
-        <input type="text" id="nomeAluno" placeholder="Ex: Theolino Foster"
-          class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-zinc-900 text-sm" />
+      <h2 class="font-semibold text-base text-zinc-800">1. Nome e Número</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+        <div class="sm:col-span-7">
+          <label class="block text-xs font-medium text-zinc-600 mb-1">Nome Completo *</label>
+          <input type="text" id="nomeAluno" placeholder="Ex: Theolino Foster"
+            class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-zinc-900 text-sm" />
+        </div>
+        <div class="sm:col-span-5">
+          <label class="block text-xs font-medium text-zinc-600 mb-1">Número (WhatsApp) *</label>
+          <input type="tel" id="numeroAluno" placeholder="(11) 99999-9999"
+            class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-zinc-900 text-sm" />
+        </div>
       </div>
     </section>
 
@@ -34,13 +46,12 @@
     <section class="bg-white p-4 rounded-xl shadow-sm border border-zinc-200 space-y-3">
       <h2 class="font-semibold text-base text-zinc-800">2. Escolha o Modelo</h2>
       
-      <!-- Troque o link abaixo pela imagem real comparando Classic x Balloon -->
-      <div class="rounded-lg overflow-hidden border border-zinc-200 bg-zinc-50">
+      <div class="rounded-lg overflow-hidden border border-zinc-200 bg-white">
         <img id="imgComparativo" 
-             src="https://placehold.co/600x260/18181b/ffffff?text=Foto+Comparativa:+Classic+vs+Balloon" 
+             src="comparativo.jpg" 
              alt="Diferença entre Moletom Classic e Balloon" 
-             class="w-full h-44 object-cover" />
-        <p class="text-[11px] text-zinc-500 px-3 py-1.5 bg-zinc-100">
+             class="w-full h-52 object-contain bg-white" />
+        <p class="text-[11px] text-zinc-500 px-3 py-1.5 bg-zinc-100 border-t border-zinc-200">
           <strong>Classic:</strong> modelagem tradicional com opção de cordinha. &nbsp;|&nbsp; <strong>Balloon:</strong> caimento mais largo/boxy (não possui cordinha).
         </p>
       </div>
@@ -88,7 +99,6 @@
         <button type="button" id="btnXXG" data-size="XXG" class="size-btn py-2 rounded-lg border border-zinc-300 text-sm font-medium hover:bg-zinc-100">XXG</button>
       </div>
 
-      <!-- Resumo dinâmico das medidas do tamanho selecionado -->
       <div id="boxMedidaAtual" class="bg-zinc-50 border border-zinc-200 rounded-xl p-3 space-y-2">
         <div class="flex justify-between items-center">
           <span class="text-xs font-semibold text-zinc-700" id="tituloMedidaAtual">Medidas do Classic • Tamanho M</span>
@@ -97,7 +107,6 @@
         <div id="gridMedidasAtual" class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center"></div>
       </div>
 
-      <!-- Tabela completa expansível -->
       <div id="tabelaCompletaWrapper" class="hidden overflow-x-auto border border-zinc-200 rounded-lg">
         <table class="w-full text-xs text-center border-collapse" id="tabelaCompleta"></table>
       </div>
@@ -111,7 +120,6 @@
       </div>
 
       <div class="divide-y divide-zinc-100">
-        <!-- Todas as estampas (Obrigatório) -->
         <div class="flex items-center justify-between py-3 bg-emerald-50/60 -mx-2 px-2 rounded-lg">
           <div>
             <div class="flex items-center gap-2">
@@ -126,7 +134,6 @@
           </div>
         </div>
 
-        <!-- Cordinha -->
         <label id="rowCordinha" class="flex items-center justify-between py-3 cursor-pointer transition">
           <div>
             <p class="text-sm font-medium" id="titleCordinha">Cordinha no capuz</p>
@@ -138,7 +145,6 @@
           </div>
         </label>
 
-        <!-- Nome -->
         <div class="py-3">
           <label class="flex items-center justify-between cursor-pointer">
             <div>
@@ -156,7 +162,6 @@
           </div>
         </div>
 
-        <!-- Zíper -->
         <label class="flex items-center justify-between py-3 cursor-pointer">
           <div>
             <p class="text-sm font-medium">Zíper frontal</p>
@@ -169,7 +174,6 @@
         </label>
       </div>
 
-      <!-- Detalhamento de Frete -->
       <div class="bg-zinc-50 p-3 rounded-lg border border-zinc-200 flex justify-between items-center text-xs text-zinc-600">
         <span>Frete rateado por aluno (fixo)</span>
         <span class="font-semibold text-zinc-800">+ R$ 6,81</span>
@@ -178,7 +182,6 @@
 
   </main>
 
-  <!-- Barra fixa inferior estilo iFood -->
   <footer class="fixed bottom-0 inset-x-0 bg-white border-t border-zinc-200 px-4 py-3 shadow-lg z-50">
     <div class="max-w-lg mx-auto flex items-center justify-between gap-4">
       <div>
@@ -192,7 +195,6 @@
     </div>
   </footer>
 
-  <!-- Modal de Confirmação -->
   <div id="modalSucesso" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-xl">
       <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">✓</div>
@@ -204,6 +206,6 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

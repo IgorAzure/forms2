@@ -1,12 +1,11 @@
-// COLE A URL DO SEU GOOGLE APPS SCRIPT ABAIXO:
-const APPS_SCRIPT_URL = "api/form";
+import { db } from "./firebase-config.js";
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
 const FRETE = 6.81;
 const PRECO_ESTAMPAS_OBRIGATORIO = 25;
 const PRECOS_BASE = { Classic: 225, Balloon: 265 };
 let tamanhoSelecionado = "M";
 
-// Tabela oficial DNY 2026 (extraída do PDF)
 const TABELA_MEDIDAS = {
   Classic: {
     tamanhos: ["PP", "P", "M", "G", "XG", "XXG"],
@@ -76,7 +75,6 @@ function renderizarMedidas() {
     </div>
   `).join("");
 
-  // Atualiza também a tabela completa expansível
   const thead = `
     <thead class="bg-zinc-100 text-zinc-700 font-semibold">
       <tr>
@@ -100,25 +98,21 @@ function renderizarMedidas() {
   document.getElementById('tabelaCompleta').innerHTML = thead + tbody;
 }
 
-// Toggle tabela completa
 document.getElementById('btnToggleTabela').addEventListener('click', (e) => {
   const wrapper = document.getElementById('tabelaCompletaWrapper');
   const oculta = wrapper.classList.toggle('hidden');
   e.target.textContent = oculta ? "Ver tabela completa" : "Ocultar tabela";
 });
 
-// Clique nos botões de tamanho
 document.querySelectorAll('.size-btn').forEach(btn => {
   btn.addEventListener('click', () => atualizarBotoesTamanho(btn.dataset.size));
 });
 
-// Mostrar/esconder campo de nome na peça
 addNome.addEventListener('change', () => {
   boxNomePeca.classList.toggle('hidden', !addNome.checked);
   calcularTotal();
 });
 
-// Regra Classic vs Balloon
 radiosModelo.forEach(radio => {
   radio.addEventListener('change', () => {
     const isBalloon = radio.value === 'Balloon';
@@ -131,7 +125,6 @@ radiosModelo.forEach(radio => {
       ? 'flex items-center justify-between p-3.5 rounded-xl border-2 border-zinc-900 bg-zinc-50 cursor-pointer transition'
       : 'flex items-center justify-between p-3.5 rounded-xl border border-zinc-300 bg-white cursor-pointer transition';
 
-    // Controla cordinha e tamanho XXG no Balloon
     if (isBalloon) {
       addCordinha.checked = false;
       addCordinha.disabled = true;
@@ -174,16 +167,20 @@ function calcularTotal() {
   });
 
   totalDisplay.textContent = formatarBRL(total);
-  return total;
+  return Number(total.toFixed(2));
 }
 
-// Envio para o Google Sheets
 document.getElementById('btnEnviar').addEventListener('click', async () => {
   const nomeAluno = document.getElementById('nomeAluno').value.trim();
+  const numeroAluno = document.getElementById('numeroAluno').value.trim();
   const nomePeca = document.getElementById('nomePeca').value.trim();
 
   if (!nomeAluno) {
     alert("Por favor, digite seu nome completo.");
+    return;
+  }
+  if (!numeroAluno) {
+    alert("Por favor, digite seu número de WhatsApp.");
     return;
   }
   if (addNome.checked && !nomePeca) {
@@ -197,44 +194,39 @@ document.getElementById('btnEnviar').addEventListener('click', async () => {
   if (addNome.checked) listaAdicionais.push("Nome");
   if (document.getElementById('addZiper').checked) listaAdicionais.push("Zíper");
 
-  const total = calcularTotal();
+  const totalNumerico = calcularTotal();
   const btn = document.getElementById('btnEnviar');
   btn.disabled = true;
-  btn.textContent = "Enviando...";
-
-  const payload = {
-    nomeAluno,
-    modelo,
-    tamanho: tamanhoSelecionado,
-    adicionais: listaAdicionais.join(" + "),
-    nomePeca: addNome.checked ? nomePeca : "",
-    total: formatarBRL(total)
-  };
+  btn.textContent = "Registrando...";
 
   try {
-    if (APPS_SCRIPT_URL !== "COLE_SUA_URL_DO_APPS_SCRIPT_AQUI") {
-      await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-    }
+    await addDoc(collection(db, "pedidos"), {
+      nomeAluno,
+      numeroAluno,
+      modelo,
+      tamanho: tamanhoSelecionado,
+      adicionais: listaAdicionais,
+      nomePeca: addNome.checked ? nomePeca : "",
+      total: totalNumerico,
+      pago: false,
+      criadoEm: serverTimestamp()
+    });
+
     document.getElementById('resumoModal').innerHTML = `
-      <strong>${nomeAluno}</strong> (${tamanhoSelecionado})<br>
-      Moletom <strong>${modelo}</strong><br>
-      ${payload.adicionais}<br><br>
-      Valor total: <strong class="text-emerald-700 text-base">${payload.total}</strong>
+      <strong>${nomeAluno}</strong> • ${numeroAluno}<br>
+      Moletom <strong>${modelo}</strong> (Tam. <strong>${tamanhoSelecionado}</strong>)<br>
+      ${listaAdicionais.join(" + ")}<br><br>
+      Valor total: <strong class="text-emerald-700 text-base">${formatarBRL(totalNumerico)}</strong>
     `;
     document.getElementById('modalSucesso').classList.remove('hidden');
   } catch (err) {
-    alert("Erro ao enviar pedido. Tente novamente.");
+    console.error(err);
+    alert("Erro ao registrar pedido: " + err.message);
   } finally {
     btn.disabled = false;
     btn.textContent = "Confirmar Pedido";
   }
 });
 
-// Inicializa tabela de medidas e total na carga da página
 renderizarMedidas();
 calcularTotal();
