@@ -1,5 +1,5 @@
-import { db } from "./firebase-config.js";
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { rtdb } from "./firebase-config.js";
+import { ref, push, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
 const FRETE = 6.81;
 const PRECO_ESTAMPAS_OBRIGATORIO = 25;
@@ -172,15 +172,15 @@ function calcularTotal() {
 
 document.getElementById('btnEnviar').addEventListener('click', async () => {
   const nomeAluno = document.getElementById('nomeAluno').value.trim();
-  const numeroAluno = document.getElementById('numeroAluno').value.trim();
+  const numeroMoletom = document.getElementById('numeroMoletom').value.trim();
   const nomePeca = document.getElementById('nomePeca').value.trim();
 
   if (!nomeAluno) {
     alert("Por favor, digite seu nome completo.");
     return;
   }
-  if (!numeroAluno) {
-    alert("Por favor, digite seu número de WhatsApp.");
+  if (!numeroMoletom) {
+    alert("Por favor, digite o número que deseja no moletom.");
     return;
   }
   if (addNome.checked && !nomePeca) {
@@ -197,34 +197,34 @@ document.getElementById('btnEnviar').addEventListener('click', async () => {
   const totalNumerico = calcularTotal();
   const btn = document.getElementById('btnEnviar');
   btn.disabled = true;
-  btn.textContent = "Registrando...";
+  btn.textContent = "Salvando...";
 
   try {
-    await addDoc(collection(db, "pedidos"), {
+    const novaEscolhaRef = push(ref(rtdb, "escolhas"));
+    await set(novaEscolhaRef, {
       nomeAluno,
-      numeroAluno,
+      numeroMoletom,
       modelo,
       tamanho: tamanhoSelecionado,
       adicionais: listaAdicionais,
       nomePeca: addNome.checked ? nomePeca : "",
       total: totalNumerico,
-      pago: false,
       criadoEm: serverTimestamp()
     });
 
     document.getElementById('resumoModal').innerHTML = `
-      <strong>${nomeAluno}</strong> • ${numeroAluno}<br>
+      <strong>${nomeAluno}</strong> • Nº <strong>#${numeroMoletom}</strong><br>
       Moletom <strong>${modelo}</strong> (Tam. <strong>${tamanhoSelecionado}</strong>)<br>
       ${listaAdicionais.join(" + ")}<br><br>
-      Valor total: <strong class="text-emerald-700 text-base">${formatarBRL(totalNumerico)}</strong>
+      Estimativa da peça: <strong class="text-emerald-700 text-base">${formatarBRL(totalNumerico)}</strong>
     `;
     document.getElementById('modalSucesso').classList.remove('hidden');
   } catch (err) {
     console.error(err);
-    alert("Erro ao registrar pedido: " + err.message);
+    alert("Erro ao registrar escolha: " + err.message);
   } finally {
     btn.disabled = false;
-    btn.textContent = "Confirmar Pedido";
+    btn.textContent = "Registrar Escolha";
   }
 });
 
