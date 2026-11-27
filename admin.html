@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Moletons • Financeiro Terceirão</title>
+  <title>Painel Levantamento • Moletons Terceirão</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-zinc-100 text-zinc-900 font-sans antialiased">
@@ -13,7 +13,7 @@
     <div class="bg-white max-w-sm w-full p-6 rounded-2xl shadow-md border border-zinc-200 space-y-4">
       <div>
         <h1 class="text-xl font-bold">Painel Administrativo</h1>
-        <p class="text-xs text-zinc-500 mt-0.5">Controle de pedidos e caixa dos moletons</p>
+        <p class="text-xs text-zinc-500 mt-0.5">Levantamento de modelos, tamanhos e números da turma</p>
       </div>
       <div class="space-y-3">
         <div>
@@ -27,7 +27,7 @@
             class="w-full px-3 py-2 rounded-lg border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900" />
         </div>
         <button id="btnLogin" class="w-full bg-zinc-900 hover:bg-zinc-800 text-white py-2.5 rounded-xl text-sm font-semibold transition">
-          Entrar no Dashboard
+          Entrar no Painel
         </button>
         <p id="loginErro" class="text-xs text-red-600 hidden text-center"></p>
       </div>
@@ -42,8 +42,8 @@
     <header class="bg-zinc-900 text-white py-4 px-4 shadow-md">
       <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 class="text-lg font-bold">Dashboard Moletons DNY • Terceirão</h1>
-          <p class="text-xs text-zinc-400">Atualização ao vivo em tempo real</p>
+          <h1 class="text-lg font-bold">Catálogo Moletons • Terceirão</h1>
+          <p class="text-xs text-zinc-400">Atualização ao vivo conforme os alunos preenchem</p>
         </div>
         <div class="flex items-center gap-2">
           <button id="btnExportarCSV" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3.5 py-2 rounded-lg transition">
@@ -61,53 +61,48 @@
 
     <main class="max-w-6xl mx-auto p-4 space-y-6">
 
-      <!-- Cards Financeiros -->
-      <section class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <!-- KPIs -->
+      <section class="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div class="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm">
-          <p class="text-xs text-zinc-500 font-medium">Total de Pedidos</p>
+          <p class="text-xs text-zinc-500 font-medium">Total de Escolhas Registradas</p>
           <p id="kpiTotalPedidos" class="text-2xl font-extrabold mt-1">0</p>
           <p id="kpiModelosSplit" class="text-[11px] text-zinc-500 mt-1">0 Classic • 0 Balloon</p>
         </div>
         <div class="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm">
-          <p class="text-xs text-zinc-500 font-medium">Valor Total dos Pedidos</p>
-          <p id="kpiValorTotal" class="text-2xl font-extrabold mt-1">R$ 0,00</p>
-          <p class="text-[11px] text-zinc-500 mt-1">Inclui estampas e frete</p>
+          <p class="text-xs text-zinc-500 font-medium">Orçamento Geral Estimado</p>
+          <p id="kpiValorTotal" class="text-2xl font-extrabold text-emerald-700 mt-1">R$ 0,00</p>
+          <p class="text-[11px] text-zinc-500 mt-1">Soma total (c/ estampas e frete)</p>
         </div>
         <div class="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm">
-          <p class="text-xs text-emerald-700 font-medium">Já Recebido (Pago)</p>
-          <p id="kpiValorPago" class="text-2xl font-extrabold text-emerald-700 mt-1">R$ 0,00</p>
-          <p id="kpiQtdPaga" class="text-[11px] text-zinc-500 mt-1">0 alunos pagos</p>
-        </div>
-        <div class="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm">
-          <p class="text-xs text-amber-700 font-medium">Falta Receber</p>
-          <p id="kpiValorPendente" class="text-2xl font-extrabold text-amber-600 mt-1">R$ 0,00</p>
-          <p id="kpiQtdPendente" class="text-[11px] text-zinc-500 mt-1">0 pendentes</p>
+          <p class="text-xs text-zinc-500 font-medium">Média por Aluno</p>
+          <p id="kpiTicketMedio" class="text-2xl font-extrabold mt-1">R$ 0,00</p>
+          <p class="text-[11px] text-zinc-500 mt-1">Valor médio das peças escolhidas</p>
         </div>
       </section>
 
-      <!-- Resumo de Produção para enviar à DNY -->
+      <!-- Grade & Personalizações -->
       <section class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div class="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm space-y-3">
-          <h2 class="font-semibold text-sm text-zinc-800">Grade de Tamanhos (Resumo DNY)</h2>
+          <h2 class="font-semibold text-sm text-zinc-800">Grade de Tamanhos</h2>
           <div id="resumoGrade" class="grid grid-cols-2 gap-3 text-xs"></div>
         </div>
         <div class="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm space-y-3">
-          <h2 class="font-semibold text-sm text-zinc-800">Adicionais & Nomes para Personalizar</h2>
+          <h2 class="font-semibold text-sm text-zinc-800">Adicionais & Personalizações</h2>
           <div id="resumoAdicionais" class="text-xs space-y-2 text-zinc-700"></div>
         </div>
       </section>
 
-      <!-- Tabela de Pedidos -->
+      <!-- Lista de Alunos -->
       <section class="bg-white rounded-xl border border-zinc-200 shadow-sm overflow-hidden">
         <div class="p-4 border-b border-zinc-200 flex flex-wrap items-center justify-between gap-3">
-          <h2 class="font-semibold text-sm text-zinc-800">Lista de Alunos</h2>
+          <h2 class="font-semibold text-sm text-zinc-800">Escolhas por Aluno</h2>
           <div class="flex items-center gap-2">
-            <input type="text" id="buscaAluno" placeholder="Buscar aluno ou tamanho..."
+            <input type="text" id="buscaAluno" placeholder="Buscar aluno, número ou tamanho..."
               class="px-3 py-1.5 rounded-lg border border-zinc-300 text-xs focus:outline-none focus:ring-2 focus:ring-zinc-900" />
-            <select id="filtroStatus" class="px-2.5 py-1.5 rounded-lg border border-zinc-300 text-xs bg-white">
-              <option value="todos">Todos</option>
-              <option value="pagos">Pagos</option>
-              <option value="pendentes">Pendentes</option>
+            <select id="filtroModelo" class="px-2.5 py-1.5 rounded-lg border border-zinc-300 text-xs bg-white">
+              <option value="todos">Todos os modelos</option>
+              <option value="Classic">Apenas Classic</option>
+              <option value="Balloon">Apenas Balloon</option>
             </select>
           </div>
         </div>
@@ -117,12 +112,11 @@
             <thead class="bg-zinc-50 text-zinc-600 font-semibold border-b border-zinc-200">
               <tr>
                 <th class="p-3">Aluno</th>
-                <th class="p-3">WhatsApp</th>
+                <th class="p-3">Nº</th>
                 <th class="p-3">Modelo / Tam.</th>
                 <th class="p-3">Adicionais</th>
                 <th class="p-3">Nome na Peça</th>
-                <th class="p-3">Total</th>
-                <th class="p-3">Pagamento</th>
+                <th class="p-3">Estimativa</th>
                 <th class="p-3 text-right">Ação</th>
               </tr>
             </thead>
@@ -135,11 +129,11 @@
   </div>
 
   <script type="module">
-    import { db, auth } from "./firebase-config.js";
+    import { rtdb, auth } from "./firebase-config.js";
     import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-    import { collection, onSnapshot, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    import { ref, onValue, remove } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
-    let pedidosCache = [];
+    let escolhasCache = [];
 
     const loginView = document.getElementById('loginView');
     const dashboardView = document.getElementById('dashboardView');
@@ -152,7 +146,7 @@
       if (user) {
         loginView.classList.add('hidden');
         dashboardView.classList.remove('hidden');
-        iniciarListenerPedidos();
+        iniciarListenerEscolhas();
       } else {
         dashboardView.classList.add('hidden');
         loginView.classList.remove('hidden');
@@ -175,35 +169,35 @@
 
     document.getElementById('btnLogout').addEventListener('click', () => signOut(auth));
 
-    function iniciarListenerPedidos() {
-      const q = query(collection(db, "pedidos"), orderBy("criadoEm", "desc"));
-      onSnapshot(q, (snapshot) => {
-        pedidosCache = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    function iniciarListenerEscolhas() {
+      const escolhasRef = ref(rtdb, "escolhas");
+      onValue(escolhasRef, (snapshot) => {
+        const dados = snapshot.val();
+        if (!dados) {
+          escolhasCache = [];
+        } else {
+          escolhasCache = Object.entries(dados)
+            .map(([id, val]) => ({ id, ...val }))
+            .sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0));
+        }
         atualizarDashboard();
       });
     }
 
     function atualizarDashboard() {
-      const totalPedidos = pedidosCache.length;
-      const classicQtd = pedidosCache.filter(p => p.modelo === "Classic").length;
-      const balloonQtd = pedidosCache.filter(p => p.modelo === "Balloon").length;
+      const total = escolhasCache.length;
+      const classicQtd = escolhasCache.filter(p => p.modelo === "Classic").length;
+      const balloonQtd = escolhasCache.filter(p => p.modelo === "Balloon").length;
+      const valorTotal = escolhasCache.reduce((acc, p) => acc + Number(p.total || 0), 0);
+      const ticketMedio = total > 0 ? valorTotal / total : 0;
 
-      const valorTotal = pedidosCache.reduce((acc, p) => acc + Number(p.total || 0), 0);
-      const pagos = pedidosCache.filter(p => p.pago);
-      const valorPago = pagos.reduce((acc, p) => acc + Number(p.total || 0), 0);
-      const valorPendente = valorTotal - valorPago;
-
-      document.getElementById('kpiTotalPedidos').textContent = totalPedidos;
+      document.getElementById('kpiTotalPedidos').textContent = `${total} ${total === 1 ? 'aluno' : 'alunos'}`;
       document.getElementById('kpiModelosSplit').textContent = `${classicQtd} Classic • ${balloonQtd} Balloon`;
       document.getElementById('kpiValorTotal').textContent = formatarBRL(valorTotal);
-      document.getElementById('kpiValorPago').textContent = formatarBRL(valorPago);
-      document.getElementById('kpiQtdPaga').textContent = `${pagos.length} alunos pagos`;
-      document.getElementById('kpiValorPendente').textContent = formatarBRL(valorPendente);
-      document.getElementById('kpiQtdPendente').textContent = `${totalPedidos - pagos.length} pendentes`;
+      document.getElementById('kpiTicketMedio').textContent = formatarBRL(ticketMedio);
 
-      // Grade por modelo e tamanho
       const contarGrade = (modelo, tamanhos) => tamanhos.map(t => {
-        const qtd = pedidosCache.filter(p => p.modelo === modelo && p.tamanho === t).length;
+        const qtd = escolhasCache.filter(p => p.modelo === modelo && p.tamanho === t).length;
         return `<span class="inline-flex justify-between px-2 py-1 rounded bg-zinc-50 border border-zinc-200"><span>${t}</span><strong>${qtd}</strong></span>`;
       }).join("");
 
@@ -218,22 +212,22 @@
         </div>
       `;
 
-      // Resumo adicionais e nomes
-      const qtdCordinha = pedidosCache.filter(p => (p.adicionais || []).includes("Cordinha")).length;
-      const qtdZiper = pedidosCache.filter(p => (p.adicionais || []).includes("Zíper")).length;
-      const listaNomes = pedidosCache
+      const qtdCordinha = escolhasCache.filter(p => (p.adicionais || []).includes("Cordinha")).length;
+      const qtdZiper = escolhasCache.filter(p => (p.adicionais || []).includes("Zíper")).length;
+      const listaNomes = escolhasCache
         .filter(p => p.nomePeca)
-        .map(p => `${p.nomePeca} (${p.modelo} ${p.tamanho})`);
+        .map(p => `${p.nomePeca} (#${p.numeroMoletom || "-"} • ${p.modelo} ${p.tamanho})`);
 
       document.getElementById('resumoAdicionais').innerHTML = `
-        <div class="flex gap-3">
+        <div class="flex flex-wrap gap-2">
+          <span class="px-2.5 py-1 rounded-lg bg-zinc-100">Todas as estampas: <strong>${total}</strong></span>
           <span class="px-2.5 py-1 rounded-lg bg-zinc-100">Cordinha: <strong>${qtdCordinha}</strong></span>
           <span class="px-2.5 py-1 rounded-lg bg-zinc-100">Zíper: <strong>${qtdZiper}</strong></span>
           <span class="px-2.5 py-1 rounded-lg bg-zinc-100">Com Nome: <strong>${listaNomes.length}</strong></span>
         </div>
         <div class="bg-zinc-50 p-2.5 rounded-lg border border-zinc-200 max-h-24 overflow-y-auto">
-          <p class="font-medium text-zinc-600 mb-1">Nomes na peça:</p>
-          <p class="text-zinc-800">${listaNomes.length ? listaNomes.join(" • ") : "Nenhum nome personalizado ainda."}</p>
+          <p class="font-medium text-zinc-600 mb-1">Nomes e números na peça:</p>
+          <p class="text-zinc-800">${listaNomes.length ? listaNomes.join(" • ") : "Nenhum nome personalizado registrado ainda."}</p>
         </div>
       `;
 
@@ -242,35 +236,31 @@
 
     function renderizarTabela() {
       const termo = document.getElementById('buscaAluno').value.toLowerCase();
-      const status = document.getElementById('filtroStatus').value;
+      const modeloFiltro = document.getElementById('filtroModelo').value;
 
-      const filtrados = pedidosCache.filter(p => {
+      const filtrados = escolhasCache.filter(p => {
         const matchTexto = (p.nomeAluno || "").toLowerCase().includes(termo) ||
+                           (p.numeroMoletom || "").toLowerCase().includes(termo) ||
                            (p.tamanho || "").toLowerCase().includes(termo) ||
-                           (p.modelo || "").toLowerCase().includes(termo);
-        const matchStatus = status === "todos" || (status === "pagos" && p.pago) || (status === "pendentes" && !p.pago);
-        return matchTexto && matchStatus;
+                           (p.adicionais || []).join(" ").toLowerCase().includes(termo);
+        const matchModelo = modeloFiltro === "todos" || p.modelo === modeloFiltro;
+        return matchTexto && matchModelo;
       });
 
       const tbody = document.getElementById('tabelaPedidos');
       if (!filtrados.length) {
-        tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-zinc-400">Nenhum pedido encontrado.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-zinc-400">Nenhuma escolha registrada ainda.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = filtrados.map(p => `
         <tr class="hover:bg-zinc-50">
           <td class="p-3 font-semibold text-zinc-900">${p.nomeAluno}</td>
-          <td class="p-3 text-zinc-600">${p.numeroAluno || "-"}</td>
+          <td class="p-3 font-bold text-zinc-800">#${p.numeroMoletom || "-"}</td>
           <td class="p-3"><span class="font-medium">${p.modelo}</span> • <span class="px-1.5 py-0.5 bg-zinc-200 rounded font-bold">${p.tamanho}</span></td>
           <td class="p-3 text-zinc-600">${(p.adicionais || []).join(" + ")}</td>
           <td class="p-3 font-medium text-zinc-800">${p.nomePeca || "-"}</td>
           <td class="p-3 font-bold text-zinc-900">${formatarBRL(p.total)}</td>
-          <td class="p-3">
-            <button data-id="${p.id}" data-pago="${p.pago}" class="btn-toggle-pago px-2.5 py-1 rounded-full text-[11px] font-bold transition ${p.pago ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
-              ${p.pago ? '✓ Pago' : 'Pendente'}
-            </button>
-          </td>
           <td class="p-3 text-right">
             <button data-id="${p.id}" data-nome="${p.nomeAluno}" class="btn-excluir text-red-500 hover:text-red-700 font-medium">
               Excluir
@@ -279,37 +269,29 @@
         </tr>
       `).join("");
 
-      document.querySelectorAll('.btn-toggle-pago').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          const pagoAtual = btn.dataset.pago === "true";
-          await updateDoc(doc(db, "pedidos", btn.dataset.id), { pago: !pagoAtual });
-        });
-      });
-
       document.querySelectorAll('.btn-excluir').forEach(btn => {
         btn.addEventListener('click', async () => {
-          if (confirm(`Excluir o pedido de ${btn.dataset.nome}?`)) {
-            await deleteDoc(doc(db, "pedidos", btn.dataset.id));
+          if (confirm(`Remover o registro de ${btn.dataset.nome}?`)) {
+            await remove(ref(rtdb, `escolhas/${btn.dataset.id}`));
           }
         });
       });
     }
 
     document.getElementById('buscaAluno').addEventListener('input', renderizarTabela);
-    document.getElementById('filtroStatus').addEventListener('change', renderizarTabela);
+    document.getElementById('filtroModelo').addEventListener('change', renderizarTabela);
 
     // Exportar CSV
     document.getElementById('btnExportarCSV').addEventListener('click', () => {
-      const cabecalho = ["Nome", "WhatsApp", "Modelo", "Tamanho", "Adicionais", "Nome na Peca", "Total", "Status"];
-      const linhas = pedidosCache.map(p => [
+      const cabecalho = ["Nome", "Numero no Moletom", "Modelo", "Tamanho", "Adicionais", "Nome na Peca", "Estimativa"];
+      const linhas = escolhasCache.map(p => [
         `"${p.nomeAluno}"`,
-        `"${p.numeroAluno || ""}"`,
+        `"${p.numeroMoletom || ""}"`,
         p.modelo,
         p.tamanho,
         `"${(p.adicionais || []).join(" + ")}"`,
         `"${p.nomePeca || ""}"`,
-        Number(p.total || 0).toFixed(2).replace(".", ","),
-        p.pago ? "Pago" : "Pendente"
+        Number(p.total || 0).toFixed(2).replace(".", ",")
       ].join(";"));
 
       const csv = "\uFEFF" + [cabecalho.join(";"), ...linhas].join("\n");
@@ -317,7 +299,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "pedidos_moletons_terceirao.csv";
+      a.download = "levantamento_moletons_terceirao.csv";
       a.click();
     });
   </script>
